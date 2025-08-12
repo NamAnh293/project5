@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Photo Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #image {
+            width: 600px;
+            height: 400px;
+            margin: 20px auto;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px black;
+        }
+
+        img {
+            width: 150px;
+            margin: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        img:hover, img:focus {
+            border: 2px solid #333;
+            outline: none;
+        }
+    </style>
+</head>
+<body onload="setupGallery()">
+    <h1>Interactive Photo Gallery</h1>
+
+    <div id="image">Hover or focus on an image below to display here.</div>
+
+    <!-- 6 ảnh offline -->
+    <img src="1.jpg" alt="My Waifu">
+    <img src="2.jpg" alt="Kiana">
+    <img src="3.jpg" alt="Kiana Kaslana">
+    <img src="4.jpg" alt="Tuna">
+    <img src="5.jpg" alt="Herscher of finality">
+    <img src="6.jpg" alt="Cá mặn">
+
+    <script>
+        function upDate(previewPic) {
+            console.log("upDate triggered:", previewPic.alt);
+            document.getElementById("image").innerHTML = previewPic.alt;
+            document.getElementById("image").style.backgroundImage = "url('" + previewPic.src + "')";
+        }
+
+        function undo() {
+            console.log("undo triggered");
+            document.getElementById("image").style.backgroundImage = "url('')";
+            document.getElementById("image").innerHTML = "Hover or focus on an image below to display here.";
+        }
+
+        function setupGallery() {
+            console.log("setupGallery onload triggered");
+
+            let images = document.querySelectorAll("img");
+            for (let i = 0; i < images.length; i++) {
+                // Thêm tabindex cho truy cập bàn phím
+                images[i].setAttribute("tabindex", "0");
+
+                // Sự kiện chuột
+                images[i].addEventListener("mouseover", function() { upDate(this); });
+                images[i].addEventListener("mouseleave", undo);
+
+                // Sự kiện bàn phím
+                images[i].addEventListener("focus", function() { upDate(this); });
+                images[i].addEventListener("blur", undo);
+            }
+        }
+    </script>
+</body>
+</html>
